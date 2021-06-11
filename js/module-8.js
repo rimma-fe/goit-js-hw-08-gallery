@@ -1,4 +1,4 @@
-import images from './data/gallery-items.js';
+import images from '/data/gallery-items.js';
 console.log(images);
 
 const GalleryContainer = document.querySelector('.js-gallery');
@@ -59,7 +59,7 @@ GalleryContainer.innerHTML = galleryMarkup;
 GalleryContainer.addEventListener('click', onGalleryContainerClick);
 
 function onGalleryContainerClick(e)  {
-  console.log(e);
+  console.log(e.target);
 }
 
 
