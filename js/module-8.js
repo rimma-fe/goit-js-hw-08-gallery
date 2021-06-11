@@ -8,7 +8,24 @@ const arrayImages =[];
 const close = document.querySelector('.lightbox__button');
 close.addEventListener('click', () => {
   modal.getElementsByClassName.display = 'none';
+
 })
+
+document.addEventListener('keydown', (evt) => {
+  let newIndex;
+  const currentId = arrayImages.indexOf(modalContent.src);
+  if(evt.key === 'ArrowLeft') {
+    if(currentId > -1) {
+      newIndex = currentId -1;
+      if(newIndex == -1) {
+        newIndex = arrayImages.length -1;
+      }
+    }
+  }else if(evt.key === 'Arrowright') {
+    newIndex = currentId +1;
+  }
+})
+
 console.log(GalleryContainer);
 console.log(modal);
 console.log(modalContent);
@@ -45,20 +62,6 @@ function onGalleryContainerClick(e)  {
   console.log(e);
 }
 
-document.addEventListener('keydown', (evt) => {
-  let newIndex;
-  const currentId = arrayImages.indexOf(modalContent.src);
-  if(evt.key === 'ArrowLeft') {
-    if(currentId > -1) {
-      newIndex = currentId -1;
-      if(newIndex == -1) {
-        newIndex = arrayImages.length -1;
-      }
-    }
-  }else if(evt.key === 'Arrowright') {
-    newIndex = currentId +1;
-  }
-})
 
 
 
