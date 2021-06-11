@@ -1,30 +1,24 @@
 import images from '/data/gallery-items.js';
 console.log(images);
 
-/*<li class="gallery__item">
-      <a
-        class="gallery__link"
-        href="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-      >
-        <img
-          class="gallery__image"
-          src="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546__340.jpg"
-          data-source="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-          alt="Tulips"
-        />
-      </a>
-    </li>*/
-
-
-
 const GalleryContainer = document.querySelector('.js-gallery');
+const modal = document.querySelector('.js-lightbox');
+const modalContent = document.querySelector('.lightbox__image');
+const arrayImages =[];
+const close = document.querySelector('.lightbox__button');
+close.addEventListener('click', () => {
+  modal.getElementsByClassName.display = 'none';
+})
 console.log(GalleryContainer);
-const galleryMarkup = creategalleryItemMarkup(images);
-GalleryContainer.insertAdjacentElement('beforeend', galleryMarkup);
-console.log(creategalleryItemMarkup(images));
+console.log(modal);
+console.log(modalContent);
+
+
+
 function creategalleryItemMarkup(images) {
-    retun images.map(({preview, original, descr}) => {
-      return `
+    return images
+        .map(({ preview, original, descr }) => {
+            return `
       <li class="gallery__item">
       <a
         class="gallery__link"
@@ -39,10 +33,33 @@ function creategalleryItemMarkup(images) {
       </a>
     </li>
       `;
-      })
-      .join('');
+        })
+        .join('');
+}
+const galleryMarkup = creategalleryItemMarkup(images);
+GalleryContainer.innerHTML = galleryMarkup;
+
+GalleryContainer.addEventListener('click', onGalleryContainerClick);
+
+function onGalleryContainerClick(e)  {
+  console.log(e);
+}
+
+document.addEventListener('keydown', (evt) => {
+  let newIndex;
+  const currentId = arrayImages.indexOf(modalContent.src);
+  if(evt.key === 'ArrowLeft') {
+    if(currentId > -1) {
+      newIndex = currentId -1;
+      if(newIndex == -1) {
+        newIndex = arrayImages.length -1;
+      }
+    }
+  }else if(evt.key === 'Arrowright') {
+    newIndex = currentId +1;
   }
-  
+})
+
 
 
   
