@@ -11,20 +11,7 @@ close.addEventListener('click', () => {
 
 })
 
-document.addEventListener('keydown', (evt) => {
-  let newIndex;
-  const currentId = arrayImages.indexOf(modalContent.src);
-  if(evt.key === 'ArrowLeft') {
-    if(currentId > -1) {
-      newIndex = currentId -1;
-      if(newIndex == -1) {
-        newIndex = arrayImages.length -1;
-      }
-    }
-  }else if(evt.key === 'Arrowright') {
-    newIndex = currentId +1;
-  }
-})
+
 
 console.log(GalleryContainer);
 console.log(modal);
@@ -53,8 +40,25 @@ function creategalleryItemMarkup(images) {
         })
         .join('');
 }
+
 const galleryMarkup = creategalleryItemMarkup(images);
 GalleryContainer.innerHTML = galleryMarkup;
+
+
+document.addEventListener('keydown', (evt) => {
+  let newIndex;
+  const currentId = arrayImages.indexOf(modalContent.src);
+  if(evt.key === 'ArrowLeft') {
+    if(currentId > -1) {
+      newIndex = currentId -1;
+      if(newIndex == -1) {
+        newIndex = arrayImages.length -1;
+      }
+    }
+  }else if(evt.key === 'Arrowright') {
+    newIndex = currentId +1;
+  }
+}) 
 
 GalleryContainer.addEventListener('click', onGalleryContainerClick);
 
