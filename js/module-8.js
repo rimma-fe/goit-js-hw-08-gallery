@@ -1,71 +1,73 @@
+
 import images from '../data/gallery-items.js';
 console.log(images);
 
-const GalleryContainer = document.querySelector('.js-gallery');
-const modal = document.querySelector('.js-lightbox');
-const modalContent = document.querySelector('.lightbox__image');
-const arrayImages =[];
-const close = document.querySelector('.lightbox__button');
-close.addEventListener('click', () => {
-  modal.getElementsByClassName.display = 'none';
+const refs = {
+  gallery: document.querySelector(".js-gallery"),
+  image: document.createElement("img"),
+  lightbox: document.querySelector(".lightbox"),
+  btn: document.querySelector('[data-action="close-lightbox"]'),
+  modal: document.querySelector(".lightbox__content"),
+  lightbox__image: document.querySelector(".lightbox__image"),
+};
 
-})
+const createGalleryItem = ({ preview, original, description }) =>
+  `<li class="gallery__item">
+<a
+  class="gallery__link"
+  href=${original}
+>
+  <img
+    class="gallery__image"
+    src=${preview}
+    data-source=${original}
+    alt=${description}
+  />
+</a>
+</li>`;
+const galleryMarkup = images.reduce(
+  (acc, item) => acc + createGalleryItem(item),
+  ""
+);
+refs.gallery.insertAdjacentHTML("afterbegin", galleryMarkup);
+refs.image.classList.add("gallery__image");
 
+refs.gallery.addEventListener("click", onGalleryClick);
+refs.btn.addEventListener("click", onClickHandlerClose);
+refs.modal.addEventListener("click", closeLightbox);
 
-
-console.log(GalleryContainer);
-console.log(modal);
-console.log(modalContent);
-
-
-
-function creategalleryItemMarkup(images) {
-    return images
-        .map(({ preview, original, descr }) => {
-            return `
-      <li class="gallery__item">
-      <a
-        class="gallery__link"
-        href="${original}"
-      >
-        <img
-          class="gallery__image"
-          src="${preview}"
-          data-source="${original}"
-          alt="${descr}"
-        />
-      </a>
-    </li>
-      `;
-        })
-        .join('');
-}
-
-const galleryMarkup = creategalleryItemMarkup(images);
-GalleryContainer.innerHTML = galleryMarkup;
-
-
-document.addEventListener('keydown', (evt) => {
-  let newIndex;
-  const currentId = arrayImages.indexOf(modalContent.src);
-  if(evt.key === 'ArrowLeft') {
-    if(currentId > -1) {
-      newIndex = currentId -1;
-      if(newIndex == -1) {
-        newIndex = arrayImages.length -1;
-      }
-    }
-  }else if(evt.key === 'Arrowright') {
-    newIndex = currentId +1;
+function onGalleryClick(e) {
+  e.preventDefault();
+  if (e.target.nodeName !== 'IMG') {
+    return;
   }
-}) 
-
-GalleryContainer.addEventListener('click', onGalleryContainerClick);
-
-function onGalleryContainerClick(e)  {
-  console.log(e.target);
+  if (e.target.nodeName === "IMG") {
+    refs.lightbox.classList.add("is-open");
+    refs.lightbox__image.src = e.target.getAttribute("data-source");
+    refs.lightbox__image.alt = e.target.alt;
+  }
+  window.addEventListener("keyup", clickKey);
 }
 
+function onClickHandlerClose(e) {
+  e.preventDefault(); 
+  refs.lightbox.classList.remove("is-open");
+  refs.lightbox__image.src = '';
+  refs.lightbox__image.alt = '';
+  window.removeEventListener("keyup", clickKey);
+}
+
+function closeLightbox(event) {
+  if (event.target === event.currentTarget) {
+    onClickHandlerClose();
+  }
+}
+
+function clickKey(event) {
+  if (event.code === "Escape") {
+    onClickHandlerClose();
+  }
+}
 
 
 
